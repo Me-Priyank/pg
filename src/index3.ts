@@ -7,15 +7,24 @@ const client = new Client({
   
 })
 
-async function setupDatabase() {
-        await client.connect();
-        console.log("Connected to database");
+async function selectFromDatabase(email:string) {
+        try{
+            await client.connect();
+        const query= 'SELECT * FROM pinku WHERE email = $1';
+        const values = [email];
+        const res = await client.query(query,values);
+        if(res.rows.length>0){
+            console.log("user found:", res.rows[0]);
+            return res.rows[0];
+        }else{
+            console.log("user dont exist");
+            return null;
+        }
+        }catch(err){
+            console.log("error encountered:",err)
+        }finally{
+            await client.end();
+        }
 
-        // Create table if it does not exist
-        const res = await client.query(`
-            SELECT * FROM PINKU
-            
-        `);
-    console.log(res)
 }
-setupDatabase();
+selectFromDatabase("priyank@example.com");
