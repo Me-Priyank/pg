@@ -1,8 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
 const pg_1 = require("pg");
+dotenv_1.default.config();
 const client = new pg_1.Client({
-    connectionString: 'postgresql://neondb_owner:npg_RkEGYWtf28qc@ep-raspy-poetry-adduw0eb-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
+    connectionString: process.env.NEONURL,
 });
 // function to create a users table in your db
 async function createUsersTable() {
