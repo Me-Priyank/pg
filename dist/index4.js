@@ -17,7 +17,6 @@ async function createTables() {
         // Drop old tables if they exist to avoid conflicts
         await client.query(`DROP TABLE IF EXISTS addresses_new CASCADE`);
         await client.query(`DROP TABLE IF EXISTS users_new CASCADE`);
-        // Create users_new table
         await client.query(`
             CREATE TABLE IF NOT EXISTS users_new (
                 id SERIAL PRIMARY KEY,
@@ -27,7 +26,6 @@ async function createTables() {
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             )
         `);
-        // Insert a user
         const insertUserQuery = `
             INSERT INTO users_new (username, email, password)
             VALUES ($1,$2,$3)
@@ -49,7 +47,6 @@ async function createTables() {
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             )
         `);
-        // Insert an address for the user
         const insertAddressQuery = `
             INSERT INTO addresses_new (user_id, street, city, state, postal_code, country)
             VALUES ($1,$2,$3,$4,$5,$6)
